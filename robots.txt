@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /connected
+
+Sitemap: https://chaserservices.ie/sitemap.xml
