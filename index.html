@@ -1,0 +1,604 @@
+<!doctype html>
+<html lang="en-IE">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chaser: every missed call, chased</title>
+<meta name="description" content="Miss a call on the job and Chaser messages the caller on WhatsApp within seconds, finds out the job, where it is and how urgent, and sends you the details. It chases your quotes too. Built in Cork for Irish trades.">
+<meta name="theme-color" content="#FFC21A">
+<meta property="og:title" content="Chaser: every missed call, chased">
+<meta property="og:description" content="Missed a call on the job? Chaser follows up on WhatsApp from your own number, sends you the job details and chases your quotes. Founding spots open for Irish trades.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://chaserservices.ie/">
+<meta property="og:image" content="https://chaserservices.ie/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_IE">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://chaserservices.ie/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%23101418'/%3E%3Cpath d='M5 12h11M12 7l5 5-5 5' fill='none' stroke='%23FFC21A' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preload" href="/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<style>@font-face{font-family:"Archivo";src:url(/archivo.woff2) format("woff2");font-weight:100 900;font-stretch:62% 125%;font-display:swap}</style>
+<style>
+:root{
+  --hivis:#FFC21A;
+  --hivis-deep:#E5A800;
+  --ink:#101418;
+  --steel:#4B545C;
+  --concrete:#EEF0F2;
+  --line:#D9DDE1;
+  --paper:#FFFBEA;
+  --paper-line:#E9DFB8;
+  --wa:#DCF8C6;
+  --white:#FFFFFF;
+  --danger:#B42318;
+  --max:1180px;
+  --pad:clamp(16px,4vw,40px);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--white);color:var(--ink);font-family:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;font-variation-settings:"wdth" 100;font-size:18px;line-height:1.55;-webkit-font-smoothing:antialiased}
+img,svg{display:block}
+a{color:var(--ink);text-underline-offset:3px}
+a:hover{color:var(--steel)}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px;border-radius:4px}
+.on-dark :focus-visible,.on-dark:focus-visible{outline-color:var(--hivis)}
+.skip{position:absolute;left:-999px;top:8px;background:var(--hivis);padding:10px 16px;border-radius:8px;font-weight:700;z-index:50}
+.skip:focus{left:8px}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--pad)}
+.wide{font-variation-settings:"wdth" 125}
+h1,h2,h3{margin:0;font-weight:800;letter-spacing:-0.01em;line-height:1.02}
+h1{font-size:clamp(40px,7.5vw,98px);font-variation-settings:"wdth" 118;font-weight:900;letter-spacing:-0.02em;line-height:0.94}
+h2{font-size:clamp(32px,4.4vw,54px);font-variation-settings:"wdth" 118}
+h3{font-size:22px;font-variation-settings:"wdth" 110;line-height:1.2}
+p{margin:0}
+.lede{font-size:clamp(18px,1.6vw,21px);color:var(--steel);max-width:34em}
+.small{font-size:16px;color:var(--steel)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 24px;border-radius:12px;font-weight:700;font-size:17px;text-decoration:none;border:2px solid var(--ink);cursor:pointer;font-family:inherit;transition:background .15s,color .15s}
+.btn-go{background:var(--hivis);border-color:var(--hivis);color:var(--ink)}
+.btn-go:hover{background:var(--hivis-deep);border-color:var(--hivis-deep);color:var(--ink)}
+.btn-line{background:transparent;color:var(--ink)}
+.btn-line:hover{background:var(--ink);color:var(--white)}
+.btn-ink{background:var(--ink);color:var(--white)}
+.btn-ink:hover{background:#2A3138;color:var(--white)}
+
+/* header */
+.top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:saturate(1.4) blur(8px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:68px;gap:16px}
+.logo{display:flex;align-items:center;gap:10px;min-height:48px;text-decoration:none;font-weight:900;font-size:23px;font-variation-settings:"wdth" 120;letter-spacing:-0.01em}
+.logo svg{width:32px;height:32px}
+.nav{display:flex;align-items:center;gap:28px}
+.nav a.link{display:inline-flex;align-items:center;min-height:44px;text-decoration:none;font-weight:600;font-size:16px}
+.nav .btn{min-height:44px;padding:0 18px;font-size:16px}
+.nav .short{display:none}
+@media (max-width:760px){.nav a.link{display:none}}
+@media (max-width:420px){.nav .long{display:none}.nav .short{display:inline}}
+
+/* hero */
+.hero{padding:clamp(40px,7vw,88px) 0 clamp(56px,8vw,104px)}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);column-gap:clamp(32px,5vw,72px);row-gap:clamp(28px,4vw,48px);align-items:start}
+.hero h1{grid-column:1/-1}
+.hero-copy{padding-top:clamp(0px,2vw,24px)}
+.hero h1 span{display:block}
+.hero .lede{margin-top:0}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
+.offer-line{margin-top:20px;font-size:16px;color:var(--steel);max-width:36em}
+.offer-line b{color:var(--ink)}
+@media (max-width:900px){.hero .wrap{grid-template-columns:1fr}.hero-copy{padding-top:0}}
+
+/* demo stage */
+.stage{position:relative;max-width:440px;width:100%;justify-self:center;margin:0}
+.phone{position:relative;background:var(--ink);border-radius:40px;padding:12px;box-shadow:0 30px 60px -30px rgba(16,20,24,.55)}
+.screen{position:relative;background:#ECE5DD;border-radius:30px;overflow:hidden;height:600px;display:flex;flex-direction:column}
+.wa-head{display:flex;align-items:center;gap:10px;background:#075E54;color:#fff;padding:16px 16px 12px}
+.wa-av{width:36px;height:36px;border-radius:50%;background:var(--hivis);color:var(--ink);display:grid;place-items:center;font-weight:800;font-size:14px;flex:none}
+.wa-name{font-weight:700;font-size:15px;line-height:1.2}
+.wa-sub{font-size:12.5px;opacity:.85}
+.chat{flex:1;padding:14px 12px 78px;display:flex;flex-direction:column;gap:8px;overflow:hidden;justify-content:flex-end}
+.msg{max-width:84%;padding:8px 11px 7px;border-radius:10px;font-size:14.5px;line-height:1.38;box-shadow:0 1px 1px rgba(0,0,0,.08)}
+.msg.in{background:var(--white);align-self:flex-start;border-top-left-radius:3px}
+.msg.out{background:var(--wa);align-self:flex-end;border-top-right-radius:3px}
+.msg time{display:block;text-align:right;font-size:11px;color:#667781;margin-top:2px}
+.typing{align-self:flex-start;background:var(--white);border-radius:10px;padding:10px 12px;display:flex;gap:4px}
+.typing i{width:7px;height:7px;border-radius:50%;background:#9AA3AB;animation:blink 1s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes blink{0%,80%,100%{opacity:.3}40%{opacity:1}}
+.missed{position:absolute;inset:0;background:linear-gradient(180deg,#1C232A,#101418);color:#fff;display:flex;flex-direction:column;align-items:center;padding-top:70px;transition:opacity .5s}
+.missed .clock{font-size:64px;font-weight:300;font-variation-settings:"wdth" 100;letter-spacing:-0.02em}
+.missed .date{font-size:15px;opacity:.75;margin-top:2px}
+.notif{margin-top:40px;width:86%;background:rgba(255,255,255,.14);border-radius:18px;padding:14px 16px;display:flex;gap:12px;align-items:center}
+.notif .ic{width:34px;height:34px;border-radius:9px;background:#E5484D;display:grid;place-items:center;flex:none}
+.notif b{display:block;font-size:15px}
+.notif span{font-size:13.5px;opacity:.85}
+.docket{position:relative;z-index:2;margin:-74px -18px 0 auto;width:84%;background:var(--paper);color:var(--ink);border-radius:6px;padding:20px 20px 18px;box-shadow:0 22px 40px -18px rgba(16,20,24,.5),0 0 0 1px var(--paper-line);transform:rotate(-2.2deg);font-size:14.5px}
+.docket::before{content:"";position:absolute;left:10px;right:10px;top:-7px;height:14px;background:radial-gradient(circle at 7px 7px,var(--white) 4px,transparent 4.5px) repeat-x;background-size:16px 14px}
+.dk-top{display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px solid var(--ink);padding-bottom:8px;margin-bottom:10px}
+.dk-top b{font-size:17px;font-variation-settings:"wdth" 118;font-weight:900}
+.dk-top span{font-size:12.5px;color:var(--steel);font-variant-numeric:tabular-nums}
+.dk-row{display:grid;grid-template-columns:92px 1fr;gap:10px;padding:5px 0;border-bottom:1px dashed var(--paper-line)}
+.dk-row:last-child{border-bottom:0}
+.dk-row dt{color:var(--steel);font-size:13px;padding-top:1px}
+.dk-row dd{margin:0;font-weight:600}
+.dk-tag{display:inline-block;background:var(--concrete);border-radius:6px;padding:0 7px;font-size:13px;font-weight:700}
+.stage-cap{margin-top:18px;font-size:15px;color:var(--steel);text-align:center}
+.replay{background:none;border:0;padding:12px 8px;margin:-8px 0;min-height:44px;font:inherit;font-size:15px;font-weight:700;color:var(--ink);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.js .pending{opacity:0;transform:translateY(8px)}
+.js .shown{opacity:1;transform:none;transition:opacity .35s,transform .35s}
+.js .docket.pending{transform:translateY(40px) rotate(-2.2deg)}
+.js .docket.shown{transform:rotate(-2.2deg);transition:opacity .5s,transform .6s cubic-bezier(.2,.9,.25,1.1)}
+@media (prefers-reduced-motion:reduce){.js .pending{opacity:1;transform:none}.js .docket.pending{transform:rotate(-2.2deg)}.typing{display:none}}
+@media (max-width:480px){.screen{height:668px}.docket{margin-right:-4px;width:92%}}
+
+/* problem band */
+.band{background:var(--ink);color:var(--white)}
+.band .wrap{display:grid;grid-template-columns:1.25fr .75fr;gap:48px;padding-top:clamp(48px,6vw,80px);padding-bottom:clamp(48px,6vw,80px);align-items:center}
+.band h2{font-size:clamp(28px,3.6vw,46px)}
+.band p{color:#C9CFD4;font-size:19px}
+@media (max-width:860px){.band .wrap{grid-template-columns:1fr}}
+
+/* sections */
+.sec{padding:clamp(64px,9vw,120px) 0}
+.sec-head{max-width:760px;margin-bottom:clamp(36px,5vw,56px)}
+.sec-head p{margin-top:16px}
+.tint{background:var(--concrete)}
+
+/* timeline */
+.timeline{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:3px solid var(--ink)}
+.timeline li{position:relative;padding:28px 24px 0 0}
+.timeline li::before{content:"";position:absolute;top:-10px;left:0;width:17px;height:17px;border-radius:50%;background:var(--hivis);border:3px solid var(--ink)}
+.timeline .t{font-variant-numeric:tabular-nums;font-weight:800;font-size:15px;color:var(--steel);font-variation-settings:"wdth" 110}
+.timeline h3{margin-top:6px}
+.timeline p{margin-top:10px;color:var(--steel);font-size:16.5px}
+@media (max-width:900px){.timeline{grid-template-columns:1fr;border-top:0;border-left:3px solid var(--ink);margin-left:8px}.timeline li{padding:0 0 32px 28px}.timeline li::before{top:2px;left:-10px}}
+.aside{margin-top:44px;display:flex;gap:16px;align-items:flex-start;max-width:760px;padding:18px 20px;border-left:4px solid var(--hivis);background:var(--concrete);border-radius:0 10px 10px 0}
+.aside p{font-size:16.5px}
+
+/* quote chasing */
+.quotes h2{font-size:clamp(30px,3.6vw,46px)}
+.quotes .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,5vw,72px);align-items:start}
+@media (max-width:900px){.quotes .wrap{grid-template-columns:1fr}}
+.ticks{list-style:none;padding:0;margin:28px 0 0;display:grid;gap:14px}
+.ticks li{display:grid;grid-template-columns:26px 1fr;gap:10px;font-size:17px}
+.ticks svg{margin-top:4px}
+.note{margin-top:22px;font-size:16px;color:var(--steel)}
+.cal{background:var(--white);border:2px solid var(--ink);border-radius:16px;padding:22px}
+.cal-strip{display:grid;grid-template-columns:repeat(11,1fr);gap:4px;margin-top:6px}
+.day{aspect-ratio:1/1.25;border-radius:7px;background:var(--concrete);display:flex;align-items:flex-end;justify-content:center;padding-bottom:5px;font-size:12px;font-weight:700;color:var(--steel);font-variant-numeric:tabular-nums}
+.day.sent{background:var(--ink);color:var(--white)}
+.day.fu{background:var(--hivis);color:var(--ink)}
+.cal-key{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:14px;font-size:15px;color:var(--steel)}
+.cal-key span{display:inline-flex;align-items:center;gap:7px}
+.cal-key i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.mail{margin-top:22px;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.mail-h{background:var(--concrete);padding:10px 14px;font-size:13.5px;color:var(--steel);line-height:1.5}
+.mail-h b{color:var(--ink)}
+.mail-b{padding:14px 16px;font-size:15.5px;display:grid;gap:10px}
+.mail-acts{display:flex;flex-wrap:wrap;gap:8px;padding:0 16px 16px}
+.chip{border-radius:8px;padding:7px 12px;font-size:14px;font-weight:700}
+.chip.won{background:var(--hivis)}.chip.lost{background:var(--ink);color:var(--white)}.chip.stop{background:var(--concrete)}
+.cap{font-size:15px;color:var(--steel);margin-top:8px}
+
+/* calculator */
+.calc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,4vw,56px);align-items:center}
+@media (max-width:900px){.calc{grid-template-columns:1fr}}
+.field{margin-bottom:26px}
+.field label{display:flex;justify-content:space-between;gap:12px;font-weight:700;font-size:17px}
+.field output{white-space:nowrap;font-variant-numeric:tabular-nums;font-variation-settings:"wdth" 115;font-weight:900;font-size:20px}
+.field .hint{font-size:15px;color:var(--steel);margin-top:2px}
+input[type=range]{width:100%;margin-top:8px;accent-color:var(--ink);height:44px;cursor:pointer;touch-action:pan-y}
+.result{background:var(--ink);color:var(--white);border-radius:20px;padding:clamp(26px,4vw,40px)}
+.result .big{font-size:clamp(52px,7vw,84px);font-weight:900;font-variation-settings:"wdth" 125;letter-spacing:-0.02em;line-height:1;color:var(--hivis);font-variant-numeric:tabular-nums}
+.result p{color:#C9CFD4;margin-top:12px;font-size:17px}
+.result .vs{margin-top:22px;padding-top:18px;border-top:1px solid #2E363E;display:flex;justify-content:space-between;gap:12px;font-size:17px}
+.result .vs b{color:var(--white);white-space:nowrap}
+
+/* setup */
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(16px,2.4vw,28px);counter-reset:s}
+.steps li{counter-increment:s;padding-top:22px;border-top:3px solid var(--ink)}
+.steps li::before{content:counter(s);display:block;font-size:44px;font-weight:900;font-variation-settings:"wdth" 125;line-height:1;margin-bottom:14px;color:var(--ink)}
+.steps p{margin-top:8px;color:var(--steel);font-size:16.5px}
+.steps code{font-family:inherit;font-weight:800;background:var(--hivis);padding:1px 6px;border-radius:5px;white-space:nowrap}
+@media (max-width:900px){.steps{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.steps{grid-template-columns:1fr}}
+.after-steps{margin-top:36px;font-size:17px}
+
+/* limits */
+.limits{display:grid;grid-template-columns:repeat(2,1fr);gap:28px 56px;margin-top:8px}
+.limits div{border-left:3px solid var(--hivis);padding-left:18px}
+.limits h3{font-size:20px}
+.limits p{margin-top:6px;color:var(--steel);font-size:16.5px}
+@media (max-width:760px){.limits{grid-template-columns:1fr}}
+.trades{margin-top:52px;font-size:17px;color:var(--steel);max-width:52em}
+.trades b{color:var(--ink)}
+
+/* pricing */
+.found{position:relative;background:var(--hivis);border-radius:22px;overflow:hidden;padding:clamp(28px,4vw,48px);padding-top:calc(clamp(28px,4vw,48px) + 14px);display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,.6fr);gap:32px;align-items:end}
+.found::before{content:"";position:absolute;left:0;right:0;top:0;height:14px;background:repeating-linear-gradient(-45deg,var(--ink) 0 14px,var(--hivis) 14px 28px)}
+.found h3{font-size:clamp(30px,4vw,50px);font-variation-settings:"wdth" 125;font-weight:900;line-height:1}
+.found .who{font-weight:700;font-size:16px;margin-bottom:14px}
+.found ul{margin:22px 0 0;padding:0;list-style:none;display:grid;gap:8px}
+.found li{display:grid;grid-template-columns:24px 1fr;gap:8px;font-size:17px}
+.found .side{display:grid;gap:12px;justify-items:start}
+.found .side p{font-size:16px}
+@media (max-width:860px){.found{grid-template-columns:1fr}}
+.std{margin-top:28px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:start}
+.std-card{border:2px solid var(--ink);border-radius:18px;padding:26px}
+.std-card .price{font-size:44px;font-weight:900;font-variation-settings:"wdth" 125;line-height:1;margin-top:8px}
+.std-card .price small{font-size:17px;font-weight:600;color:var(--steel);font-variation-settings:"wdth" 100}
+.std-card ul{margin:16px 0 0;padding:0;list-style:none;display:grid;gap:6px;font-size:16.5px}
+.later{padding:26px 4px}
+.later p{color:var(--steel);font-size:16.5px;margin-top:8px}
+@media (max-width:760px){.std{grid-template-columns:1fr}}
+
+/* faq */
+.faq{max-width:820px}
+.faq details{border-bottom:1px solid var(--line)}
+.faq details:first-of-type{border-top:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;padding:22px 44px 22px 0;position:relative;font-weight:700;font-size:19px;font-variation-settings:"wdth" 108}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"";position:absolute;right:6px;top:50%;width:14px;height:14px;margin-top:-10px;border-right:3px solid var(--ink);border-bottom:3px solid var(--ink);transform:rotate(45deg);transition:transform .2s}
+.faq details[open] summary::after{transform:rotate(-135deg);margin-top:-3px}
+@media (prefers-reduced-motion:reduce){.faq summary::after{transition:none}}
+.faq .a{padding:0 0 24px;color:var(--steel);font-size:17px;max-width:44em;display:grid;gap:10px}
+.faq .a b{color:var(--ink)}
+
+/* final */
+.final{padding:clamp(64px,9vw,120px) 0}
+.final-box{background:var(--ink);color:var(--white);border-radius:26px;padding:clamp(36px,6vw,80px);display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,.6fr);gap:32px;align-items:end}
+.final-box h2{font-size:clamp(36px,5.4vw,68px);font-variation-settings:"wdth" 125;font-weight:900}
+.final-box p{color:#C9CFD4;margin-top:14px;font-size:18px}
+@media (max-width:860px){.final-box{grid-template-columns:1fr}}
+
+footer{border-top:1px solid var(--line);padding:24px 0 36px;font-size:16px;color:var(--steel)}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px 32px}
+footer nav{display:flex;flex-wrap:wrap;gap:4px 24px}
+footer a{color:var(--ink);display:inline-flex;align-items:center;min-height:44px}
+.faq .a a{display:inline-block;padding:10px 0;margin:-10px 0}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+</style>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {"@type":"Organization","name":"Chaser","url":"https://chaserservices.ie/","email":"hello@chaserservices.ie","address":{"@type":"PostalAddress","streetAddress":"1 Horgans Quay","addressLocality":"Cork","addressCountry":"IE"}},
+    {"@type":"Service","name":"Chaser","serviceType":"Missed-call follow-up and quote chasing for trades","areaServed":"IE","provider":{"@type":"Organization","name":"Chaser"},"offers":{"@type":"Offer","price":"29","priceCurrency":"EUR","description":"Founding offer for the first 20 trades: 30 days free, then €29 a month, locked in for as long as you stay."}}
+  ]
+}
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="/" aria-label="Chaser home">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#101418"/><path d="M8 16h14M17 10l6 6-6 6" fill="none" stroke="#FFC21A" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Chaser
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a class="link" href="#how">How it works</a>
+      <a class="link" href="#quotes">Quotes</a>
+      <a class="link" href="#pricing">Pricing</a>
+      <a class="link" href="#faq">Questions</a>
+      <a class="btn btn-go" href="/join"><span class="long">Claim a founding spot</span><span class="short">Claim a spot</span></a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="hero">
+  <div class="wrap">
+    <h1><span>Every missed call.</span><span>Chased.</span></h1>
+    <div class="hero-copy">
+      <p class="lede">You can't answer from under a sink. Chaser can. Within seconds the caller gets a WhatsApp from your own number, and you get the job, where it is and how urgent, ready to ring back.</p>
+      <div class="cta-row">
+        <a class="btn btn-go" href="/join">Claim a founding spot</a>
+        <a class="btn btn-line" href="#how">See what happens</a>
+      </div>
+      <p class="offer-line"><b>First 20 Irish trades:</b> 30 days free, then €29 a month, locked in for as long as you stay. Keep your own number. No card needed to start.</p>
+    </div>
+
+    <figure class="stage" aria-label="Example: what happens when Bluefield Plumbing misses a call">
+      <div class="phone">
+        <div class="screen">
+          <div class="wa-head">
+            <div class="wa-av" aria-hidden="true" style="background:#1F6FB2;color:#fff;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center">BP</div>
+            <div><div class="wa-name">Bluefield Plumbing</div><div class="wa-sub">business account (example)</div></div>
+          </div>
+          <div class="chat" id="chat">
+            <div class="msg in" data-step="1">Hi, it's Bluefield Plumbing's assistant. Sorry we missed your call, we're on a job right now. What do you need help with, and whereabouts are you?<time>10:42</time></div>
+            <div class="msg out" data-step="2">Hiya, the pipe under my kitchen sink is leaking. I'm in Kinsale, out the Scilly road<time>10:43</time></div>
+            <div class="msg in" data-step="3">Ah no, sorry to hear that. Is it still leaking, or did you get the water turned off?<time>10:43</time></div>
+            <div class="msg out" data-step="4">Turned it off at the stopcock, bucket under it for now 😅<time>10:43</time></div>
+            <div class="msg in" data-step="5">Good stuff, that'll hold it. Who am I talking to, and when suits for Dave to ring you back?<time>10:44</time></div>
+            <div class="msg out" data-step="6">It's Mary. Any time after 4 is grand<time>10:44</time></div>
+            <div class="msg in" data-step="7">Thanks Mary, I've sent Dave the details and told him after 4 suits you.<time>10:44</time></div>
+          </div>
+          <div class="missed" id="missed" aria-hidden="true">
+            <div class="clock">10:42</div>
+            <div class="date">Wednesday 4 November</div>
+            <div class="notif">
+              <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/><path d="M16 2l6 6M22 2l-6 6"/></svg></div>
+              <div><b>Missed call</b><span>087 XXX 9930</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="docket" id="docket" data-step="8">
+        <div class="dk-top"><b>New job</b><span>10:44, from Chaser</span></div>
+        <dl style="margin:0">
+          <div class="dk-row"><dt>Job</dt><dd>Leaking pipe under kitchen sink</dd></div>
+          <div class="dk-row"><dt>Where</dt><dd>Kinsale, Scilly road</dd></div>
+          <div class="dk-row"><dt>Urgency</dt><dd><span class="dk-tag">Not urgent</span> water's off</dd></div>
+          <div class="dk-row"><dt>Ring back</dt><dd>Mary, 087 XXX 9930, after 4pm</dd></div>
+        </dl>
+      </div>
+      <figcaption class="stage-cap">An example of what the caller sees, and the job details you get. <button class="replay" id="replay" type="button" hidden>Play again</button></figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="band on-dark" aria-labelledby="why">
+  <div class="wrap">
+    <h2 id="why">Plenty of callers who hit voicemail don't leave a message. They ring the next name on Google.</h2>
+    <p>Chaser gets back to them in your business's name before they move on. You still decide when to ring back and what to quote.</p>
+  </div>
+</section>
+
+<section class="sec" id="how" aria-labelledby="how-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 id="how-h">What happens when you miss a call</h2>
+      <p class="lede">Calls you answer work exactly as they do today. Chaser only steps in when you can't pick up.</p>
+    </div>
+    <ol class="timeline">
+      <li><div class="t">0:00</div><h3>You miss the call</h3><p>You're on a roof, driving or with a customer. The call forwards quietly to your Chaser number.</p></li>
+      <li><div class="t">Seconds later</div><h3>They get a WhatsApp</h3><p>The caller hears a short message saying a WhatsApp is on the way, then gets a friendly WhatsApp from your own business number. Chaser is upfront that it's your automated assistant.</p></li>
+      <li><div class="t">Next few minutes</div><h3>Chaser gets the details</h3><p>The job, the address or Eircode, how urgent it is, their name and when suits for a call back. It never quotes prices or promises times.</p></li>
+      <li><div class="t">Done</div><h3>You get the job</h3><p>One WhatsApp with everything you need to ring back. Urgent jobs reach you straight away instead of waiting for the summary.</p></li>
+    </ol>
+    <div class="aside">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#101418" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none;margin-top:3px"><circle cx="12" cy="12" r="10"/><path d="M12 8v5M12 16.5v.01"/></svg>
+      <p><b>Not on WhatsApp?</b> If the message can't be delivered, Chaser tells you so you can ring them back. Withheld numbers can't be messaged, so ring those back as usual. <b>Gas smell or danger?</b> The caller gets the Gas Networks Ireland emergency number (1800 20 50 50) and 112/999 at once, and you're alerted.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec tint quotes" id="quotes" aria-labelledby="q-h">
+  <div class="wrap">
+    <div>
+      <h2 id="q-h">Sent a quote and heard nothing? Chaser chases it for you.</h2>
+      <p class="lede" style="margin-top:18px">Add a quote from your phone in about 20 seconds. Chaser follows up politely in your name, so you don't have to remember, and nobody falls through the cracks.</p>
+      <ul class="ticks">
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#101418" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5 11-11"/></svg><span>Up to three follow-ups, around day 2, 5 and 10 after you sent the quote.</span></li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#101418" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5 11-11"/></svg><span>Sent in your business's name. When they reply, it comes straight to you.</span></li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#101418" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5 11-11"/></svg><span>You get a copy of every follow-up, so you always know what was said.</span></li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#101418" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5 11-11"/></svg><span>Tap "We won it", "They said no" or "Stop chasing" and it stops at once.</span></li>
+      </ul>
+      <p class="note">Quotes are chased by email for now. WhatsApp quote follow-ups are coming soon.</p>
+    </div>
+
+    <div class="cal" role="img" aria-label="Example follow-up schedule for one quote">
+      <h3>One quote, chased for you</h3>
+      <div class="cal-strip" aria-hidden="true">
+        <div class="day sent">0</div><div class="day">1</div><div class="day fu">2</div><div class="day">3</div><div class="day">4</div><div class="day fu">5</div><div class="day">6</div><div class="day">7</div><div class="day">8</div><div class="day">9</div><div class="day fu">10</div>
+      </div>
+      <div class="cal-key"><span><i style="background:#101418"></i>Day you sent the quote</span><span><i style="background:#FFC21A"></i>Chaser follows up</span></div>
+      <div class="mail">
+        <div class="mail-h"><b>From:</b> Bluefield Plumbing via Chaser<br><b>Subject:</b> Your quote from Bluefield Plumbing</div>
+        <div class="mail-b">
+          <p>Hi Mary,</p>
+          <p>Just checking you got our quote for the new bathroom suite and tiling (€4,500). If you have any questions at all, just reply to this email or ring Dave on 087 XXX 0142.</p>
+          <p>Thanks,<br>Dave, Bluefield Plumbing</p>
+        </div>
+      </div>
+      <p class="cap">What your customer sees: day 2, example business. You get these buttons in your confirmation email:</p>
+      <div class="mail-acts" style="padding:8px 0 0" aria-label="Buttons in your confirmation email"><span class="chip won">We won it 🎉</span><span class="chip lost">They said no</span><span class="chip stop">Stop chasing</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="cost" aria-labelledby="c-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 id="c-h">What are missed calls costing you?</h2>
+      <p class="lede">Move the sliders to match your week. It's your own estimate, worked out on this page.</p>
+    </div>
+    <div class="calc">
+      <form id="calc" onsubmit="return false">
+        <div class="field">
+          <label for="calls"><span>Calls you miss in a week</span><output id="calls-o" for="calls">5</output></label>
+          <input type="range" id="calls" min="1" max="20" value="5" step="1">
+          <div class="hint">Most phones show this in the recent calls list.</div>
+        </div>
+        <div class="field">
+          <label for="win"><span>How many of those would have become a job</span><output id="win-o" for="win">1 in 4</output></label>
+          <input type="range" id="win" min="1" max="6" value="3" step="1">
+        </div>
+        <div class="field" style="margin-bottom:0">
+          <label for="job"><span>Your average job</span><output id="job-o" for="job">€250</output></label>
+          <input type="range" id="job" min="50" max="1000" value="250" step="50">
+        </div>
+      </form>
+      <div class="result on-dark" aria-live="polite">
+        <div class="big" id="lost">€1,354</div>
+        <p id="lost-t">a month of work that could go to the next name on Google instead of you.</p>
+        <div class="vs"><span>Chaser for founding trades</span><b>€29 a month</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec tint" id="setup" aria-labelledby="s-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 id="s-h">Set up in one go. No new app, no new phone.</h2>
+      <p class="lede">You don't have to talk to anyone or learn any software. You keep using WhatsApp exactly as you do now.</p>
+    </div>
+    <ol class="steps">
+      <li><h3>Fill in a short form</h3><p>About 2 minutes: your business, area, hours, typical jobs and what counts as urgent.</p></li>
+      <li><h3>Confirm your email</h3><p>Tap the yellow button in our welcome email. That starts your setup.</p></li>
+      <li><h3>Connect your WhatsApp</h3><p>Scan a QR code with the WhatsApp Business app you already use. About 2 minutes, and your chats stay on your phone.</p></li>
+      <li><h3>Dial one code</h3><p>We email you the code to forward missed calls. Type something like <code>**004*021…#</code> and press call. Switch it off any time with <code>##004#</code>.</p></li>
+    </ol>
+    <p class="after-steps"><b>Your free days start the day your line goes live,</b> so you don't lose any while you're setting up.</p>
+  </div>
+</section>
+
+<section class="sec" aria-labelledby="l-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 id="l-h">Sounds like you. Knows its limits.</h2>
+      <p class="lede">Chaser uses your area, hours and typical jobs, so it speaks for your business. And it's careful about what it doesn't do.</p>
+    </div>
+    <div class="limits">
+      <div><h3>Honest that it's automated</h3><p>It introduces itself as your assistant. If a caller asks for a person, you're told straight away.</p></div>
+      <div><h3>Never quotes or promises</h3><p>Prices, times and what to charge stay with you. Chaser just gets the details.</p></div>
+      <div><h3>Puts safety first</h3><p>Emergencies are flagged to you at once, and callers in danger get the right emergency numbers.</p></div>
+      <div><h3>Leaves people alone when asked</h3><p>Anyone can reply STOP and Chaser won't message them again. We never sell anyone's details.</p></div>
+    </div>
+    <p class="trades">Made for <b>plumbers, electricians, roofers, heating and solar installers, builders, landscapers, cleaners, mechanics, painters</b> and anyone else who works with their hands and can't always get to the phone.</p>
+  </div>
+</section>
+
+<section class="sec tint" id="pricing" aria-labelledby="p-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 id="p-h">One saved job a month and it's paid for.</h2>
+    </div>
+    <div class="found">
+      <div>
+        <p class="who">Founding offer for the first 20 Irish trades</p>
+        <h3>30 days free, then €29 a month. Locked&nbsp;in.</h3>
+        <ul>
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#101418" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5 11-11"/></svg><span>Missed-call follow-up on WhatsApp</span></li>
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#101418" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5 11-11"/></svg><span>Job details and urgent alerts on your phone</span></li>
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#101418" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5 11-11"/></svg><span>Quote chasing</span></li>
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#101418" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5 11-11"/></svg><span>Every new Solo feature as it launches, at the same price</span></li>
+        </ul>
+      </div>
+      <div class="side">
+        <a class="btn btn-ink" href="/join">Claim a founding spot</a>
+        <p>No card to start, no contract. If you don't continue after your free days, Chaser pauses and you're never charged.</p>
+      </div>
+    </div>
+    <div class="std">
+      <div class="std-card">
+        <h3>Solo</h3>
+        <p class="small">The standard plan once founding spots are gone</p>
+        <div class="price">€39 <small>a month</small></div>
+        <ul><li>Everything in the founding offer</li><li>14 days free to start</li></ul>
+      </div>
+      <div class="later">
+        <h3>Crew and Pro, for bigger teams</h3>
+        <p>Coming soon: Google review requests, past-customer reminders, team members, monthly reports, multiple numbers and job software sync. Crew will be €79 a month and Pro €149.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="faq" aria-labelledby="f-h">
+  <div class="wrap">
+    <div class="sec-head"><h2 id="f-h">Questions trades ask us</h2></div>
+    <div class="faq">
+      <details><summary>Do I need a new phone number?</summary><div class="a"><p>No. You keep your own number. Calls you don't answer go to your Chaser number instead of voicemail, so everything else works exactly as it does today.</p></div></details>
+      <details><summary>Whose name shows on the WhatsApp?</summary><div class="a"><p>Yours. Chaser connects to the WhatsApp Business app you already use, so the caller gets a message from your own number and business name. Every message says it's your automated assistant. You see every chat on your phone and can jump in any time: Chaser steps back as soon as you reply.</p></div></details>
+      <details><summary>Do I need WhatsApp Business?</summary><div class="a"><p>Chaser works with the free WhatsApp Business app on your business mobile. Not using it yet? It takes about 5 minutes to set up, and we'll walk you through it. Either way, you hear about every missed call so you can ring back.</p></div></details>
+      <details><summary>Will my customers know it's automated?</summary><div class="a"><p>Yes. Chaser writes in your business's name and says it's your automated assistant. It never quotes prices or promises times. If a customer asks for a person, you're told straight away.</p></div></details>
+      <details><summary>What about emergencies?</summary><div class="a"><p>Urgent jobs, like a burst pipe or no heat, come to your phone straight away instead of waiting for the summary. If a caller mentions a gas smell or danger, Chaser gives them the Gas Networks Ireland emergency number and 112/999 at once.</p></div></details>
+      <details><summary>How does call forwarding work?</summary><div class="a"><p>Your Chaser number is an ordinary Irish landline number (021), so forwarding to it costs the same as calling any Irish landline on your plan. Most Irish mobiles can forward calls you don't answer. It also covers calls when you're busy, out of signal or switched off, and it replaces your voicemail while it's on. We email you the exact code with your Chaser number. You type it in once and press call. To switch it off, dial <b>##004#</b>. If your network needs a different code, just reply to our email and we'll send it.</p></div></details>
+      <details><summary>What if a caller doesn't use WhatsApp?</summary><div class="a"><p>Chaser tells you if the WhatsApp couldn't be delivered, so you can give them a ring back yourself. Callers who withhold their number can't be messaged, so ring those back as you normally would.</p></div></details>
+      <details><summary>How does quote chasing work?</summary><div class="a"><p>You get a private "Chase a quote" link with your Chaser number. Add the customer, the job and when you sent the quote, and Chaser emails them up to three polite follow-ups in your name. Replies go straight to you. Tap "We won it", "They said no" or "Stop chasing" whenever you like. Only add customers who asked you for a quote.</p></div></details>
+      <details><summary>What happens after the free days?</summary><div class="a"><p>A few days before your trial ends, we email you a link to keep Chaser running. If you don't add a card, Chaser pauses and you're never charged.</p></div></details>
+      <details><summary>Is my customers' data safe?</summary><div class="a"><p>We only use your customers' details to reply to them and chase quotes on your behalf. We never sell them, and you can ask us to delete them at any time. Conversations are deleted automatically after 12 months. Full details are in our <a href="/privacy">privacy policy</a>.</p></div></details>
+      <details><summary>Can I cancel?</summary><div class="a"><p>Any time, with no fees and no contract. Reply to any email from Chaser, or use the link in your receipt.</p></div></details>
+    </div>
+  </div>
+</section>
+
+<section class="final" aria-labelledby="final-h">
+  <div class="wrap">
+    <div class="final-box on-dark">
+      <div>
+        <h2 id="final-h">Stop losing jobs to voicemail.</h2>
+        <p>First 20 Irish trades get 30 days free, then €29 a month, locked in for as long as you stay. No card, no contract.</p>
+      </div>
+      <div><a class="btn btn-go" href="/join">Claim a founding spot</a></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div><b style="color:#101418">Chaser</b>, made in Cork, Ireland.<br>Chaser is a trading name of Isaac Tobin, 1 Horgans Quay, Co. Cork, Ireland.</div>
+    <nav aria-label="Footer"><a href="#faq">Questions</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="mailto:hello@chaserservices.ie">hello@chaserservices.ie</a></nav>
+  </div>
+</footer>
+
+<script>
+(function(){
+  document.documentElement.classList.add('js');
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var missed = document.getElementById('missed');
+  var chat = document.getElementById('chat');
+  var steps = Array.prototype.slice.call(document.querySelectorAll('[data-step]'));
+  var replay = document.getElementById('replay');
+  var timers = [];
+  function clear(){ timers.forEach(clearTimeout); timers = []; var t = chat.querySelector('.typing'); if (t) t.remove(); }
+  function showAll(){ missed.style.opacity = 0; missed.style.visibility = 'hidden'; steps.forEach(function(s){ s.classList.remove('pending'); s.classList.add('shown'); }); }
+  function typing(on){ var t = chat.querySelector('.typing'); if (on && !t){ t = document.createElement('div'); t.className = 'typing'; t.setAttribute('aria-hidden','true'); t.innerHTML = '<i></i><i></i><i></i>'; chat.appendChild(t); } else if (!on && t){ t.remove(); } }
+  function play(){
+    clear();
+    replay.hidden = true;
+    steps.forEach(function(s){ s.classList.remove('shown'); s.classList.add('pending'); });
+    missed.style.visibility = 'visible'; missed.style.opacity = 1;
+    var at = 900;
+    timers.push(setTimeout(function(){ missed.style.opacity = 0; }, at));
+    timers.push(setTimeout(function(){ missed.style.visibility = 'hidden'; }, at + 450));
+    var plan = [[1,true],[2,false],[3,true],[4,false],[5,true],[6,false],[7,true],[8,false]];
+    at += 350;
+    plan.forEach(function(p){
+      var el = steps.filter(function(s){ return s.getAttribute('data-step') == p[0]; })[0];
+      if (p[1]) { timers.push(setTimeout(function(){ typing(true); }, at)); at += 600; }
+      else { at += 420; }
+      timers.push(setTimeout(function(){ typing(false); if (el.id !== 'docket') chat.insertBefore(el, chat.querySelector('.typing')); el.classList.remove('pending'); el.classList.add('shown'); }, at));
+      at += 360;
+    });
+    timers.push(setTimeout(function(){ replay.hidden = false; }, at + 300));
+  }
+  if (reduce) { showAll(); return; }
+  steps.forEach(function(s){ s.classList.add('pending'); });
+  missed.style.visibility = 'visible'; missed.style.opacity = 1;
+  var stage = document.querySelector('.stage');
+  var started = false;
+  function start(){ if (!started){ started = true; play(); } }
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function(e, o){ if (e[0].isIntersecting){ start(); o.disconnect(); } }, { threshold: 0.35 }).observe(stage);
+  } else { start(); }
+  replay.addEventListener('click', play);
+})();
+
+(function(){
+  var odds = {1:[1,10,'1 in 10'],2:[1,5,'1 in 5'],3:[1,4,'1 in 4'],4:[1,3,'1 in 3'],5:[1,2,'1 in 2'],6:[2,3,'2 in 3']};
+  var c = document.getElementById('calls'), w = document.getElementById('win'), j = document.getElementById('job');
+  var fmt = function(n){ return '€' + Math.round(n).toLocaleString('en-IE'); };
+  function upd(){
+    var o = odds[w.value];
+    document.getElementById('calls-o').textContent = c.value;
+    document.getElementById('win-o').textContent = o[2];
+    document.getElementById('job-o').textContent = fmt(+j.value) + (j.value == 1000 ? '+' : '');
+    var month = (+c.value) * (52 / 12) * (o[0] / o[1]) * (+j.value);
+    document.getElementById('lost').textContent = fmt(month);
+    document.getElementById('lost-t').textContent = month < 29 ? 'a month. At these numbers Chaser may not pay for itself yet.' : 'a month of work that could go to the next name on Google instead of you.';
+    w.setAttribute('aria-valuetext', o[2]); j.setAttribute('aria-valuetext', fmt(+j.value));
+  }
+  [c, w, j].forEach(function(el){ el.addEventListener('input', upd); });
+  upd();
+})();
+</script>
+</body>
+</html>
